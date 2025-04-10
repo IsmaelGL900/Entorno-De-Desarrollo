@@ -19,9 +19,17 @@ public class ModificarController {
     private TextField EdadMod;
     @FXML
     private Button ModificarBoton;
+    @FXML
+    private Button CerrarBotonMod;
 
+    private Runnable onCloseCallback;
     private Personas personaSeleccionada;
     private ObservableList<Personas> listaPersonas;
+
+    public void setOnCloseCallback(Runnable callback) {
+        this.onCloseCallback = callback;
+    }
+
 
     public void setPersona(Personas persona) {
         this.personaSeleccionada = persona;
@@ -42,13 +50,18 @@ public class ModificarController {
         personaSeleccionada.setApellidos(ApellidosMod.getText());
         personaSeleccionada.setEdad(Integer.parseInt(EdadMod.getText()));
 
+        if (onCloseCallback != null) {
+            onCloseCallback.run();
+        }
         // Cerrar la ventana
         ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
     }
 
     public void CerrarVentanaMod(javafx.event.ActionEvent event) {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.close();
+        if (onCloseCallback != null) {
+            onCloseCallback.run();
+        }
+        ((Stage) CerrarBotonMod.getScene().getWindow()).close();
     }
 
 }

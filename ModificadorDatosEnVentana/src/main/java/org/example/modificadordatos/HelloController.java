@@ -31,6 +31,8 @@ public class HelloController {
     private TableColumn<Personas, Integer> EdadColum;
     @FXML
     private TextField filtro;
+    @FXML
+    private Button botonAgregar;
 
     private ObservableList<Personas> listaPersonas = FXCollections.observableArrayList();
     private FilteredList<Personas> datosFiltrados;
@@ -74,16 +76,21 @@ public class HelloController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("VentanaCrear.fxml"));
             Parent root = loader.load();
 
-            // Obtiene el controlador de la ventana emergente
             VentanaController ventanaController = loader.getController();
-            ventanaController.setListaPersonas(listaPersonas);  // 🔹 Pasamos la lista
+            ventanaController.setListaPersonas(listaPersonas);
+            ventanaController.setOnCloseCallback(this::closeCurrentAndShowMain);
 
-            // Configura la escena y la ventana
-            Scene scene = new Scene(root);
             Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setScene(scene);
-            stage.showAndWait();
+            stage.setScene(new Scene(root));
+            stage.setOnCloseRequest(e -> {closeCurrentAndShowMain();
+            });
+
+            // Mostrar la nueva ventana
+            stage.show();
+
+            // Cerrar la ventana actual
+            Stage myStage = (Stage) botonAgregar.getScene().getWindow();
+            myStage.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -105,20 +112,67 @@ public class HelloController {
             ModificarController modificarController = loader.getController();
             modificarController.setPersona(seleccionada);
             modificarController.setListaPersonas(listaPersonas);
+            // Configurar el cierre para volver a la ventana principal
+            modificarController.setOnCloseCallback(() -> {
+                closeCurrentAndShowMain();
+            });
 
             // Configurar la ventana
             Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(new Scene(root));
-            stage.setTitle("Modificar Persona");
-            stage.showAndWait();
+            stage.setOnCloseRequest(e -> {
+                closeCurrentAndShowMain();
+            });
+            stage.show();
 
-            // Actualizar la tabla
-            TablaPersonas.refresh();
+            // Cerrar la ventana actual
+            Stage myStage = (Stage) TablaPersonas.getScene().getWindow();
+            myStage.close();
         } catch (IOException e) {
             e.printStackTrace();
             mostrarAlerta("Error", "No se pudo cargar la ventana de modificación");
         }
+    }
+
+    public void eliminarPersona(ActionEvent actionEvent) {
+        Personas PersonaSeleccionada = (Personas) TablaPersonas.getSelectionModel().getSelectedItem();
+
+        if (PersonaSeleccionada == null) {
+            mostrarAlerta("Error", "Debe seleccionar una persona para poder eliminarla.");
+            return;
+        }
+
+        // Eliminar de la lista
+        listaPersonas.remove(PersonaSeleccionada);
+    }
+
+    private void closeCurrentAndShowMain() {
+        try {
+            // Cerrar la ventana actual
+            Stage currentStage = (Stage) TablaPersonas.getScene().getWindow();
+            currentStage.close();
+
+            // Volver a abrir la ventana principal
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("AplicacionDatos.fxml")); // Asegúrate que este es el nombre correcto
+            Parent root = loader.load();
+
+            HelloController controller = loader.getController();
+            controller.setListaPersonas(listaPersonas);
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setListaPersonas(ObservableList<Personas> lista) {
+        this.listaPersonas = lista;
+        this.datosFiltrados = new FilteredList<>(listaPersonas, p -> true);
+        this.sortedDatos = new SortedList<>(datosFiltrados);
+        sortedDatos.comparatorProperty().bind(TablaPersonas.comparatorProperty());
+        TablaPersonas.setItems(sortedDatos);
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {
@@ -128,4 +182,5 @@ public class HelloController {
         alert.setContentText(mensaje);
         alert.showAndWait();
     }
+
 }

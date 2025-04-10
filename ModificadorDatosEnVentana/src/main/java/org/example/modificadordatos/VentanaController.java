@@ -10,7 +10,7 @@ import org.example.modificadordatos.modelos.Personas;
 
 public class VentanaController {
     private ObservableList<Personas> listaPersonas = FXCollections.observableArrayList(); // 🔹 Inicialización
-
+    private Runnable onCloseCallback;
     @FXML
     private TextField NombreText;
     @FXML
@@ -26,6 +26,10 @@ public class VentanaController {
         this.listaPersonas = listaPersonas;
     }
 
+    public void setOnCloseCallback(Runnable callback) {
+        this.onCloseCallback = callback;
+    }
+
     @FXML
     public void Guardar(ActionEvent event) {
         try {
@@ -33,7 +37,10 @@ public class VentanaController {
 
             listaPersonas.add(nuevaPersona);
 
-            // Cerrar la ventana después de guardar
+            if (onCloseCallback != null) {
+                onCloseCallback.run();
+            }
+
             Stage stage = (Stage) guardarBoton.getScene().getWindow();
             stage.close();
         } catch (Exception e) {
@@ -43,8 +50,10 @@ public class VentanaController {
 
     @FXML
     public void cerrarVentana(ActionEvent event) {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.close();
+        if (onCloseCallback != null) {
+            onCloseCallback.run();
+        }
+        ((Stage) cerrarBoton.getScene().getWindow()).close();
     }
 
 }
