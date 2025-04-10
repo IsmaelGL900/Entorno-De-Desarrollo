@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.modificadordatos.HelloController">
+    <children>
+        <TableView fx:id="TablaPersonas" layoutX="77.0" layoutY="61.0" prefHeight="223.0" prefWidth="451.0">
+            <columns>
+                <TableColumn fx:id="NombreColum" prefWidth="134.0" text="Nombre" sortable="true" />
+                <TableColumn fx:id="ApellidosColum" prefWidth="160.0" text="Apellidos" sortable="true" />
+                <TableColumn fx:id="EdadColum" prefWidth="156.0" text="Edad" sortable="true" />
+            </columns>
+        </TableView>
+        <Button fx:id="botonAgregar" layoutX="76.0" layoutY="310.0" mnemonicParsing="false" onAction="#AgregarNuevo" prefHeight="25.0" prefWidth="132.0" text="Agregar Nuevo" />
+      <Button layoutX="246.0" layoutY="310.0" mnemonicParsing="false" onAction="#ModificarPersona" text="Modificar Persona" />
+      <TextField fx:id="filtro" layoutX="142.0" layoutY="21.0" />
+      <Label layoutX="87.0" layoutY="25.0" text="Filtro   :" />
+    </children>
+</AnchorPane>
