@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.modificadordatos.HelloController">
+   <children>
+      <Label layoutX="53.0" layoutY="36.0" text="Fecha Alquiler" />
+      <Label layoutX="199.0" layoutY="36.0" text="Fecha Entrega" />
+      <Label layoutX="368.0" layoutY="36.0" text="Vehículo" />
+      <Label layoutX="513.0" layoutY="36.0" text="Clientes" />
+      <ComboBox fx:id="vehiculoBox" layoutX="342.0" layoutY="53.0" prefHeight="26.0" prefWidth="101.0" />
+      <ComboBox fx:id="clienteBox" layoutX="483.0" layoutY="53.0" prefHeight="26.0" prefWidth="101.0" />
+      <DatePicker fx:id="FechaAlquiler" layoutX="27.0" layoutY="54.0" prefHeight="2.0" prefWidth="126.0" />
+      <DatePicker fx:id="FechaEntrega" layoutX="180.0" layoutY="54.0" prefHeight="2.0" prefWidth="126.0" />
+      <Label layoutX="60.0" layoutY="110.0" text="DESCRIPCION" />
+      <Label layoutX="62.0" layoutY="152.0" text="MARCA" />
+      <Label layoutX="62.0" layoutY="192.0" text="KILÓMETROS" />
+      <Label layoutX="62.0" layoutY="235.0" text="PRECIO" />
+      <TextField fx:id="txtDescripcion" layoutX="169.0" layoutY="106.0" />
+      <TextField fx:id="txtMarca" layoutX="169.0" layoutY="148.0" />
+      <TextField fx:id="txtKilometros" layoutX="169.0" layoutY="188.0" />
+      <TextField fx:id="txtPrecio" layoutX="169.0" layoutY="231.0" />
+      <Label layoutX="366.0" layoutY="110.0" text="NIF" />
+      <Label layoutX="361.0" layoutY="152.0" text="DIRECCION" />
+      <Label layoutX="360.0" layoutY="192.0" text="POBLACION" />
+      <TextField fx:id="txtNIF" layoutX="439.0" layoutY="106.0" />
+      <TextField fx:id="txtDireccion" layoutX="439.0" layoutY="148.0" />
+      <TextField fx:id="txtPoblacion" layoutX="439.0" layoutY="188.0" />
+      <Label layoutX="164.0" layoutY="300.0" text="TOTAL SERVICIO" />
+      <TextField fx:id="txtTotalServicio" layoutX="287.0" layoutY="296.0" />
+      <Button fx:id="btnGrabar" layoutX="292.0" layoutY="337.0" mnemonicParsing="false" onAction="#grabarAlquiler" text="Grabar" />
+   </children>
+</AnchorPane>
